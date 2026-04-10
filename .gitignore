@@ -1,11 +1,52 @@
+# Environment / credentials
+.env
+.env.*
+!.env.example
+config.env
+*.secret
+*.key
+*.pem
+config/*.env
+config/secrets.*
+
+# Credentials files
+config.json
+config.local.json
+*.local.json
+credentials.json
+
+# Python
 __pycache__/
+*.py[cod]
 *.pyc
-.env.minimax
+.venv/
+venv/
+*.egg-info/
+dist/
+build/
+
+# Local files
+tmp/
+.temp/
+.cache/
+*.tmp
+*.tmp*
+.DS_Store
+
+# Logs
+logs/
+*.log
+
+# Project specific
 tasks/ablesci_tasks.json
 tasks/ablesci_tasks.json.tmp*
+tasks/ablesci_tasks.json.bak
 .locks/
-logs/
 results/
-*.log
-*.tmp
-.DS_Store
+papers/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
