@@ -12,7 +12,7 @@
 ## 目录结构
 
 ```
-pubmed-review-skill/
+pubmed-review/
 ├── README.md
 ├── SKILL.md
 ├── .env.example
@@ -34,8 +34,8 @@ pubmed-review-skill/
 ### 1. 克隆或解压到目标目录
 
 ```bash
-git clone <repo_url> pubmed-review-skill
-cd pubmed-review-skill
+git clone <repo_url> 
+cd 
 ```
 
 ### 2. 配置环境变量
@@ -56,7 +56,7 @@ MINIMAX_MODEL=MiniMax-M2.7-highspeed
 
 ```bash
 # 每30分钟运行一次调度器
-*/30 * * * * cd /path/to/pubmed-review-skill && python3 scripts/task_dispatcher.py >> logs/dispatcher.log 2>&1
+*/30 * * * * cd /path/to/ && python3 scripts/task_dispatcher.py >> logs/dispatcher.log 2>&1
 ```
 
 ### 4. 配置飞书通知
@@ -140,3 +140,34 @@ export NOTIFY_PATH=/usr/local/bin/notify
 ## 与 OpenClaw 集成
 
 本 skill 可通过 OpenClaw 的 `pubmed_intent_handler` 接收飞书消息，实现自然语言触发。具体集成方式参考 `SKILL.md`。
+
+---
+
+## 🔒 Security
+
+### Never Commit Credentials
+
+Do **NOT** commit the following to the repository:
+- `.env` files containing real API keys or tokens
+- `config.json` with actual credentials
+- Any file containing `MINIMAX_API_KEY`, `FEISHU_APP_SECRET`, etc.
+
+### Pre-commit Secret Check
+
+Before committing, run the pre-commit secret check:
+```bash
+git config core.hooksPath .githooks
+python3 scripts/check_secrets.py
+```
+
+### If You Accidentally Exposed a Secret
+
+1. **Immediately rotate the secret** (regenerate API key, reset credentials)
+2. Clean git history:
+   ```bash
+   pip install git-filter-repo
+   git filter-repo --path path/to/exposed/file --invert-paths --force
+   git push origin --force --all
+   git push origin --force --tags
+   ```
+3. Review GitHub Secret Scanning alerts
