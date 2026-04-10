@@ -7,6 +7,7 @@ import sys
 import os
 import json
 import time
+import subprocess
 import urllib.request
 import urllib.parse
 import urllib.error
@@ -203,9 +204,11 @@ def main():
 
     # 5. 同步调用 processor
     log('调用 pubmed_summary processor...')
-    proc_cmd = f'bash "{SCRIPT_DIR}/run_processor.sh" pubmed_summary "{articles_file}" "{task_id}"'
-    proc_result = os.system(proc_cmd)
-    proc_exit = proc_result >> 8 if proc_result != -1 else proc_result
+    proc_result = subprocess.run(
+        ['bash', f'{SCRIPT_DIR}/run_processor.sh', 'pubmed_summary', articles_file, task_id],
+        check=False
+    )
+    proc_exit = proc_result.returncode
 
     # 6. 根据退出码写最终状态
     if proc_exit == 0:

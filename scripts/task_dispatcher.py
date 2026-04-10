@@ -4,6 +4,7 @@ import os
 import socket
 import time
 import fcntl
+import subprocess
 
 # 路径配置（去硬编码）
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -45,13 +46,9 @@ def clear_lock(task):
     task['lock'] = {'pid': None, 'hostname': None, 'locked_at': None}
 
 def run_ablesci(task):
-    doi = task['payload']['doi']
-    assist_id = task.get('assist_id', '')
-    assist_url = task.get('assist_url', '')
-    processor = task.get('processor', 'paper')
-    print(f'[RUN] {doi} [processor={processor}]')
-    os.chdir(BASE_DIR)
-    os.system(f'PROCESSOR={processor} bash scripts/check_ablesci_status.sh {doi} {assist_id} {assist_url}')
+    # pubmed-review-skill 不处理 ablesci 任务，仅记录日志
+    doi = task.get('payload', {}).get('doi', 'unknown')
+    print(f'[SKIP] ablesci task not supported in pubmed-review-skill: {doi}')
 
 def run_pubmed(task):
     task_id = task['id']
@@ -59,7 +56,7 @@ def run_pubmed(task):
     processor = task.get('processor', 'pubmed_summary')
     print(f'[RUN] pubmed_review {task_id} [topic={topic}] [processor={processor}]')
     os.chdir(BASE_DIR)
-    os.system(f'python3 scripts/run_pubmed_review.py {task_id}')
+    subprocess.run(['python3', 'scripts/run_pubmed_review.py', task_id], check=False)
 
 def dispatch():
     my_pid = os.getpid()

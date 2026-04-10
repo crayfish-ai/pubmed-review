@@ -14,7 +14,7 @@ import urllib.request
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 BASE_DIR = os.path.dirname(os.path.dirname(SCRIPT_DIR))
 TASKS_DIR = os.path.join(BASE_DIR, 'tasks')
-TASKS_FILE = os.path.join(TASKS_DIR, 'pubmed_tasks.json')
+TASKS_FILE = os.path.join(TASKS_DIR, 'ablesci_tasks.json')
 RESULTS_DIR = os.path.join(BASE_DIR, 'results', 'pubmed')
 FOLLOWUP_STATE_FILE = os.path.join(BASE_DIR, '.pubmed_last_followed.json')
 NOTIFY_SCRIPT = os.environ.get('NOTIFY_PATH', '/usr/local/bin/notify' if os.path.exists('/usr/local/bin/notify') else 'notify')
@@ -232,14 +232,10 @@ def call_llm(question, all_titles, top_articles):
 
 def notify_user(message):
     """发送飞书消息"""
-    msg_file = '/tmp/pubmed_followup.msg'
-    with open(msg_file, 'w') as f:
-        f.write(message)
     subprocess.run(
-        f'{NOTIFY_SCRIPT} -t "综述追问回复" -m "$(cat {msg_file})"',
-        shell=True, capture_output=True
+        [NOTIFY_SCRIPT, '-t', '综述追问回复', '-m', message],
+        shell=False
     )
-    os.remove(msg_file)
 
 
 def save_followed_task(task_id):

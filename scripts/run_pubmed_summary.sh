@@ -60,7 +60,7 @@ fi
 TOPIC=$(python3 -c "
 import json
 try:
-    tasks_file = '${PROJECT_DIR}/tasks/ablesci_tasks.json'
+    tasks_file = '${BASE_DIR}/tasks/ablesci_tasks.json'
     with open(tasks_file) as f:
         for t in json.load(f):
             if t.get('id') == '${TASK_ID}':

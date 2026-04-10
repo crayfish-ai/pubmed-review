@@ -1,6 +1,6 @@
 {
   "name": "pubmed-review",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "飞书自然语言触发的 PubMed 文献检索与 AI 综述生成系统。支持 OR/AND 专业检索式扩展、时间/文献类型/人群/研究类型限定词过滤、AI 结构化综述（brief+full）、飞书通知、追问回答。",
   "author": "crayfish-ai",
   "license": "MIT",
@@ -35,7 +35,7 @@
   },
   "permissions": {
     "description": "本 skill 需要网络访问 PubMed E-utilities 和 MiniMax API，以及本地文件读写（任务队列和结果存储）。",
-    "network": ["eutils.ncbi.nlm.nih.gov", "api.minimax.chat", "open.feishu.cn"],
+    "network": ["eutils.ncbi.nlm.nih.gov", "api.minimax.chat"],
     "filesystem": ["skill directory", "tasks directory", "results directory"]
   },
   "capabilities": {
